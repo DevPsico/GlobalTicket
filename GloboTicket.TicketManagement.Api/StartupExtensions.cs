@@ -37,6 +37,8 @@ namespace GloboTicket.TicketManagement.Api
                     .AllowAnyHeader()
                     .AllowCredentials()));
 
+            builder.Services.AddSwaggerGen();
+
             return builder.Build();
 
         }
@@ -49,11 +51,17 @@ namespace GloboTicket.TicketManagement.Api
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
             app.UseCors("open");
+
+            if(app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
             app.UseHttpsRedirection();
             app.MapControllers();
 
             return app;
-
         }
 
         /// <summary>
